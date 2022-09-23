@@ -1,7 +1,22 @@
-// app/routes/login.tsx
 import { useState } from 'react'
 import { Layout } from '~/components/layout'
 import { FormField } from '~/components/form-field'
+import type { ActionFunction} from '@remix-run/node';
+import { json } from '@remix-run/node'
+import { validateEmail, validateName, validatePassword } from '~/utils/validators.server'
+
+export const action: ActionFunctiom = async ({ request }) => {
+  const form = await request.formData()
+  const action = form.get('_action')
+  const email = form.get('email')
+  const password = form.get('password')
+  let firstName = form.get('firstName')
+  let lastName = form.get('lastName')
+
+  if (typeof)
+
+
+}
 
 
 export default function Login() {
