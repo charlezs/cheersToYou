@@ -14,9 +14,49 @@ model User {
   email     String   @unique
   password  String
   profile   Profile
+  authoredCheers Cheer[]  @relation("AuthoredCheers")
+  cheers         Cheer[]  @relation("RecievedCheers")
 }
 
 type Profile {
   firstName String
   lastName  String
+}
+
+enum Emoji {
+  CHEER
+  PARTY
+  HANDSUP
+}
+
+enum Department {
+  MARKETING
+  SALES
+  ENGINEERING
+  HR
+}
+
+enum Color {
+  RED
+  GREEN
+  YELLOW
+  BLUE
+  WHITE
+}
+
+type CheerStyle {
+  backgroundColor Color @default(YELLOW)
+  textColor       Color @default(WHITE)
+  emoji           Emoji @default(CHEER)
+}
+
+model Cheer {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  message     String
+  createdAt   DateTime   @default(now())
+  style       CheerStyle?
+  author      User       @relation(references: [id], fields: [authorId], "AuthoredCheers")
+  authorId    String     @db.ObjectId
+  recipient   User       @relation(references: [id], fields: [recipientId], "RecievedCheers")
+  recipientId String     @db.ObjectId
 }

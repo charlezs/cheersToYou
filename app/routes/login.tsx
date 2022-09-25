@@ -9,7 +9,6 @@ import { validateEmail, validateName, validatePassword } from '~/utils/validator
 import { login, register, getUser } from '~/utils/auth.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-    // If there's already a user in the session, redirect to the home page
     return await getUser(request) ? redirect('/') : null
 }
 
@@ -21,7 +20,6 @@ export const action: ActionFunction = async ({ request }) => {
     let firstName = form.get("firstName");
     let lastName = form.get("lastName");
 
-    // If not all data was passed, error
     if (
         typeof action !== "string" ||
         typeof email !== "string" ||
@@ -30,7 +28,6 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
     }
 
-    // If not all data was passed, error
     if (
         action === 'register' && (
             typeof firstName !== "string" ||
@@ -40,7 +37,6 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
     }
 
-    // Validate email & password
     const errors = {
         email: validateEmail(email),
         password: validatePassword(password),
@@ -50,7 +46,6 @@ export const action: ActionFunction = async ({ request }) => {
         } : {})
     };
 
-    //  If there were any errors, return them
     if (Object.values(errors).some(Boolean))
         return json({ errors, fields: { email, password, firstName, lastName }, form: action }, { status: 400 });
 
