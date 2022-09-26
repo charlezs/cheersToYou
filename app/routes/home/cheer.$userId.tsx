@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node'
-import { json, redirect } from '@remix-run/node'
+import { json, redirect, ActionFunction } from '@remix-run/node'
 import {getUserById} from '~/utils/user.server'
 import { Modal } from '~/components/modal';
 import {
@@ -8,9 +8,12 @@ import {
 } from '@remix-run/react'
 import { UserCircle } from '~/components/user-circle'
 import { useState } from 'react'
-import { CheerStyle } from '@prisma/client'
+import { Color, Emoji, CheerStyle } from '@prisma/client'
 import { SelectBox } from '~/components/select-box'
 import { colorMap, emojiMap } from "~/utils/constants";
+import { Cheer } from '~/components/cheer'
+import { requireUserId } from '~/utils/auth.server'
+import { createCheer } from '~/utils/cheer.server'
 
 
 
@@ -24,6 +27,39 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const recipient = await getUserById(userId)
   return json({ recipient })
 }
+
+
+export const action: ActionFunction = async ({ request }) => {
+  const userId = await requireUserId(request)
+  const form = await request.formData()
+  const message = form.get('message')
+  const backgroundColor = form.get('backgroundColor')
+  const textColor = form.get('textColor')
+  const emoji = form.get('emoji')
+  const recipientId = form.get('recipientId')
+  if (
+    typeof message !== 'string' ||
+    typeof recipientId !== 'string' ||
+    typeof backgroundColor !== 'string' ||
+    typeof textColor !== 'string' ||
+    typeof emoji !== 'string'
+  ) {
+    return json({ error: `Invalid Form Data` }, { status: 400 })
+  }
+  if (!message.length) {
+    return json({ error: `Please provide a message.` }, { status: 400 })
+  }
+  if (!recipientId.length) {
+    return json({ error: `No recipient found...` }, { status: 400 })
+  }
+  await createCheer(message, userId, recipientId, {
+    backgroundColor: backgroundColor as Color,
+    textColor: textColor as Color,
+    emoji: emoji as Emoji,
+  })
+  return redirect('/home')
+ }
+
 
 export default function CheerModal() {
   const actionData = useActionData()
@@ -125,8 +161,8 @@ export default function CheerModal() {
           <br />
           <p className="text-blue-600 font-semibold mb-2">Preview</p>
           <div className="flex flex-col items-center md:flex-row gap-x-24 gap-y-2 md:gap-y-0">
-            {/* The Preview Goes Here */}
-            <div className="flex-1" />
+          <Cheer profile={user.profile} cheer={formData} />            
+          <div className="flex-1" />
             <button
             type="submit"
             className="rounded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
