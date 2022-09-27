@@ -8,6 +8,7 @@ import { useLoaderData, Outlet } from '@remix-run/react'
 import { getFilteredCheer } from '~/utils/cheer.server'
 import { Cheer } from '~/components/cheer'
 import { Cheer as ICheer, Profile } from '@prisma/client'
+import { SearchBar } from '~/components/search-bar'
 
 interface CheerWithProfile extends ICheer {
   author: {
@@ -29,8 +30,8 @@ export default function Home() {
       <Outlet />
       <div className="h-full flex">
         <UserPanel users={users} />
-        <div className="flex-1 flex flex-col">
-          {/* Search Bar Goes Here */}
+          <div className="flex-1 flex flex-col">
+            <SearchBar />          
           <div className="flex-1 flex">
             <div className="w-full p-10 flex flex-col gap-y-4">
               {cheers.map((cheer: CheerWithProfile) => (
