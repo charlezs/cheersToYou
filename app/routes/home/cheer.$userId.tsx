@@ -62,6 +62,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 
 export default function CheerModal() {
+  
   const actionData = useActionData()
   const [formError] = useState(actionData?.error || '')
   const [formData, setFormData] = useState({
