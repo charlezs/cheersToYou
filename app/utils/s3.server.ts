@@ -2,7 +2,7 @@ import type {UploadHandler} from "@remix-run/node";
 import {unstable_parseMultipartFormData} from "@remix-run/node";
 import S3 from "aws-sdk/clients/s3";
 import cuid from "cuid";
-  
+
 
 const s3 = new S3({
     region: process.env.CHEER_BUCKET_REGION,
@@ -10,8 +10,8 @@ const s3 = new S3({
     secretAccessKey: process.env.CHEER_SECRET_ACCESS_KEY,
 });
   
-  const uploadHandler: UploadHandler = async ({ name, filename, stream }) => {
-    if (name !== "profile-pic") {
+const uploadHandler: UploadHandler = async ({ name, filename, stream }) => {
+    if (name !== "files") {
       stream.resume();
       return;
     }
