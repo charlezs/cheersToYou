@@ -20,7 +20,5 @@ export const action: ActionFunction = async ({ request }) => {
       id: userId,
     },
   });
-
-  // 4
   return json({ imageUrl });
 };
