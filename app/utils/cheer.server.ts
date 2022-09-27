@@ -1,5 +1,5 @@
 import { prisma } from './prisma.server'
-import { CheerStyle, Prisma } from '@prisma/client'
+import type { CheerStyle, Prisma } from '@prisma/client'
 
 export const createCheer = async (message: string, userId: string, recipientId: string, style: CheerStyle) => {
   await prisma.cheer.create({
@@ -42,6 +42,28 @@ export const getFilteredCheer = async (
       where: {
         recipientId: userId,
         ...whereFilter,
+      },
+    })
+  }
+
+  export const getRecentCheers = async () => {
+    return await prisma.cheer.findMany({
+      take: 3,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        style: {
+          select: {
+            emoji: true,
+          },
+        },
+        recipient: {
+          select: {
+            id: true,
+            profile: true,
+          },
+        },
       },
     })
   }

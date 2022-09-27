@@ -5,11 +5,12 @@ import { UserPanel } from '~/components/user-panel'
 import { getOtherUsers } from '~/utils/user.server'
 import {json} from '@remix-run/node'
 import { useLoaderData, Outlet } from '@remix-run/react'
-import { getFilteredCheer } from '~/utils/cheer.server'
+import { getFilteredCheer, getRecentCheers } from '~/utils/cheer.server'
 import { Cheer } from '~/components/cheer'
-import { Cheer as ICheer, Profile } from '@prisma/client'
+import type { Cheer as ICheer, Profile } from '@prisma/client'
 import { SearchBar } from '~/components/search-bar'
-import { Prisma } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
+import { RecentBar } from '~/components/recent-bar'
 
 interface CheerWithProfile extends ICheer {
   author: {
@@ -52,11 +53,12 @@ export const loader: LoaderFunction = async ({ request }) => {
         }
       }
       const cheers = await getFilteredCheer(userId, sortOptions, textFilter)
-      return json({ users, cheers })
+      const recentCheers = await getRecentCheers()
+      return json({ users, cheers, recentCheers })
 }
 
 export default function Home() {
-  const { users, cheers } = useLoaderData()
+  const { users, cheers, recentCheers } = useLoaderData()
   return (
     <Layout>
       <Outlet />
@@ -70,7 +72,7 @@ export default function Home() {
                 <Cheer key={cheer.id} cheer={cheer} profile={cheer.author.profile} />
               ))}
             </div>
-            {/* Recent Kudos Goes Here */}
+            <RecentBar cheers={recentCheers} />
           </div>
         </div>
       </div>

@@ -1,17 +1,17 @@
 import { getUserById } from "~/utils/user.server"
 import { Modal } from '~/components/modal';
 import { getUser } from '~/utils/auth.server'
-
 import { useLoaderData, useActionData } from "@remix-run/react"
 import { UserCircle } from "~/components/user-circle";
 import { useState } from "react";
 import { SelectBox } from '~/components/select-box'
 import { colorMap, emojiMap } from "~/utils/constants";
 import { Cheer } from "~/components/cheer";
-
-import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import type { ActionFunction, LoaderFunction,  } from "@remix-run/node"
 import { createCheer } from "~/utils/cheer.server";
-import { Color, Emoji, CheerStyle, Prisma, prisma } from '@prisma/client'
+import type { Color, Emoji, CheerStyle, Prisma } from '@prisma/client'
+import { prisma } from '@prisma/client'
 import { requireUserId } from "~/utils/auth.server";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -174,31 +174,4 @@ export default function CheerModal() {
             </div>
         </form>
     </Modal>
-}
-
-export const getFilteredCheer = async (
-  userId: string,
-  sortFilter: Prisma.CheerOrderByWithRelationInput,
-  whereFilter: Prisma.CheerWhereInput,
-) => {
-    return await prisma.cheer.findMany({
-        select: {
-          id: true,
-          style: true,
-          message: true,
-          author: {
-            select: {
-              profile: true,
-            },
-          },
-        },
-        orderBy: {
-          ...sortFilter,
-        },
-        where: {
-          recipientId: userId,
-          ...whereFilter,
-        },
-  })
-
 }
