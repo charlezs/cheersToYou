@@ -21,6 +21,8 @@ model User {
 type Profile {
   firstName String
   lastName  String
+  department     Department? @default(MARKETING)
+  profilePicture String?
 }
 
 enum Emoji {

@@ -1,4 +1,4 @@
-import { User, Cheer } from '@prisma/client'
+import type { User, Cheer } from '@prisma/client'
 import { UserCircle } from './user-circle'
 import { emojiMap } from '~/utils/constants'
 
