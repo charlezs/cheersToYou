@@ -9,6 +9,7 @@ import { getFilteredCheer } from '~/utils/cheer.server'
 import { Cheer } from '~/components/cheer'
 import { Cheer as ICheer, Profile } from '@prisma/client'
 import { SearchBar } from '~/components/search-bar'
+import { Prisma } from '@prisma/client'
 
 interface CheerWithProfile extends ICheer {
   author: {
@@ -19,8 +20,39 @@ interface CheerWithProfile extends ICheer {
 export const loader: LoaderFunction = async ({ request }) => {
     const userId = await requireUserId(request)
     const users = await getOtherUsers(userId)
-    const cheers = await getFilteredCheer(userId, {}, {})
-    return json({ users, cheers })
+    const url = new URL(request.url)
+    const sort = url.searchParams.get('sort')
+    const filter = url.searchParams.get('filter')
+      let sortOptions: Prisma.CheerOrderByWithRelationInput = {}
+      if (sort) {
+        if (sort === 'date') {
+          sortOptions = { createdAt: 'desc' }
+        }
+        if (sort === 'sender') {
+          sortOptions = { author: { profile: { firstName: 'asc' } } }
+        }
+        if (sort === 'emoji') {
+          sortOptions = { style: { emoji: 'asc' } }
+        }
+      }
+      let textFilter: Prisma.CheerWhereInput = {}
+      if (filter) {
+        textFilter = {
+          OR: [
+            { message: { mode: 'insensitive', contains: filter } },
+            {
+              author: {
+                OR: [
+                  { profile: { is: { firstName: { mode: 'insensitive', contains: filter } } } },
+                  { profile: { is: { lastName: { mode: 'insensitive', contains: filter } } } },
+                ],
+              },
+            },
+          ],
+        }
+      }
+      const cheers = await getFilteredCheer(userId, sortOptions, textFilter)
+      return json({ users, cheers })
 }
 
 export default function Home() {
