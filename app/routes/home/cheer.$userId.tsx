@@ -106,16 +106,16 @@ export default function CheerModal() {
 
     const { recipient, user } = useLoaderData()
 
-    return <Modal isOpen={true} className="w-2/3 p-10">
+    return <Modal isOpen={true} className="w-2/3 p-10 bg-blue-100">
         <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full mb-2">
             {formError}
         </div>
-        <form method="post">
+        <form method="post" className="bg-blue-100">
             <input type="hidden" value={recipient.id} name="recipientId" />
             <div className="flex flex-col md:flex-row gap-y-2 md:gap-y-0">
                 <div className="text-center flex flex-col items-center gap-y-2 pr-8">
                     <UserCircle profile={recipient.profile} className="h-24 w-24" />
-                    <p className="text-blue-300" >{recipient.profile.firstName} {recipient.profile.lastName}</p>
+                    <p className="text-black" >{recipient.profile.firstName} {recipient.profile.lastName}</p>
                     {
                         recipient.profile.department && (
                             <span className="px-2 py-1 bg-gray-300 rounded-xl text-blue-300 w-auto">
@@ -168,7 +168,7 @@ export default function CheerModal() {
             <div className="flex flex-col items-center md:flex-row gap-x-24 gap-y-2 md:gap-y-0">
                 <Cheer profile={user.profile} cheer={formData} />
                 <div className="flex-1" />
-                <button type="submit" className="rounded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1">
+                <button type="submit" className="rounded-xl bg-white font-semibold text-blue-400 w-80 h-12 transition duration-300 ease-in-out hover:bg-blue-200 hover:-translate-y-1">
                     Send
                 </button>
             </div>

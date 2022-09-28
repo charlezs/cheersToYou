@@ -98,9 +98,9 @@ export default function ProfileSettings() {
     }
 
     return (
-       <Modal isOpen={true} className="w-1/3">
+       <Modal isOpen={true} className="w-1/3 bg-blue-200 ">
           <div className="p-3">
-           <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">Your Profile</h2>
+           <h2 className="text-4xl font-semibold text-white text-center mb-4">Your Profile</h2>
            <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full mb-2">
                     {formError}
            </div>
@@ -109,7 +109,7 @@ export default function ProfileSettings() {
                   <ImageUploader onChange={handleFileUpload} imageUrl={formData.profilePicture || ''}/>
                </div>
             <div className="flex-1">
-            <form method="post" onSubmit={e => !confirm('Are you sure?') ? e.preventDefault() : true}>
+            <form method="post" onSubmit={e => !confirm('Are you sure?') ? e.preventDefault() : true} >
                 <FormField htmlFor="firstName" label="First Name" value={formData.firstName} onChange={e => handleInputChange(e, 'firstName')} error={actionData?.errors?.firstName}/>
                 <FormField htmlFor="lastName" label="Last Name" value={formData.lastName} onChange={e => handleInputChange(e, 'lastName')} error={actionData?.errors?.lastName}/>
 
@@ -124,7 +124,7 @@ export default function ProfileSettings() {
                 />
 
                 <div className="w-full text-right mt-4">
-                  <button className="rounded-xl w-full bg-yellow-300 font-semibold text-white mt-4 px-16 py-2 transition duration-300 ease-in-out hover:bg-red-400 hover:-translate-y-1"
+                  <button className="rounded-xl w-full bg-white font-semibold text-blue-300 mt-4 px-16 py-2 transition duration-300 ease-in-out hover:bg-blue-100 hover:-translate-y-1"
                            name="_action"
                            value="save"
                   >

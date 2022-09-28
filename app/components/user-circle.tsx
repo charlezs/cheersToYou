@@ -10,7 +10,7 @@ interface props {
 export function UserCircle({ profile, onClick, className }: props) {
   return (
     <div
-      className={`${className} cursor-pointer bg-gray-400 rounded-full flex justify-center items-center`}
+      className={`${className} cursor-pointer bg-gray-100 font-sans rounded-full flex justify-center items-center`}
       onClick={onClick}
       style={{
         backgroundSize: "cover",

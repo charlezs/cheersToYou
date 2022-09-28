@@ -24,7 +24,7 @@ interface props {
   }: props) {
     return (
       <div>
-        <label htmlFor={id} className="text-blue-600 font-semibold">
+        <label htmlFor={id} className="text-blue-600 font-sans font-semibold">
           {label}
         </label>
         <div className={`flex items-center ${containerClassName} my-2`}>
