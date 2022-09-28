@@ -57,7 +57,7 @@ model Cheer {
   message     String
   createdAt   DateTime   @default(now())
   style       CheerStyle?
-  author      User       @relation(references: [id], fields: [authorId], "AuthoredCheers")
+  author      User       @relation(references: [id], fields: [authorId], onDelete: Cascade, "AuthoredCheers")
   authorId    String     @db.ObjectId
   recipient   User       @relation(references: [id], fields: [recipientId], "RecievedCheers")
   recipientId String     @db.ObjectId
