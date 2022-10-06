@@ -30,7 +30,7 @@
 <img width="1440" alt="Screen Shot 2022-10-06 at 4 51 55 AM" src="https://user-images.githubusercontent.com/90402466/194270515-14cef695-e49d-43fc-99db-5067a52cfbfe.png">
 
 
-[Cheers](https://cheers-to-you-xnlr.vercel.app/login?redirectTo=%2Fhome) (try the live demo)is an app that allows you, the team leader, to organize your team in one place to hand out congradulations and cheers to success achieved. Cheers is a full stack app!
+[Cheers](https://cheers-to-you-xnlr.vercel.app/login?redirectTo=%2Fhome) (try the live demo) is an app that allows you, the team leader, to organize your team in one place to hand out congradulations and cheers to success achieved. Cheers is a full stack app!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
